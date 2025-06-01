@@ -95,8 +95,7 @@
         <td>{{ client.Email_Address }}</td>
         <td> {{client.Next_AppointmentDate && client.Next_AppointmentDate !== '0001-01-01T00:00:00'
       ? (client.Next_AppointmentDate | date: 'yyyy-MM-dd'): 'Not scheduled'}}
-</td>
-
+    </td>
     </tbody>
   </table>
 

@@ -13,18 +13,17 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class BenefitsPage implements OnInit {
-    benefits: Benefit[] = [];
+  benefits: Benefit[] = [];
   error: string | null = null;
   
-   showUpdateMode: boolean = false;
+  showUpdateMode: boolean = false;
   selectedBenefitId: number | null = null;
-  //  showForm: boolean = false;
   editingBenefit: Benefit | null = null;
 
   constructor(private benefitsService: BenefitsService) {}
 
   ngOnInit(): void {
- this.loadBenefits();
+    this.loadBenefits(); // loading benefits on component intialization
   }
 
    loadBenefits(): void {
@@ -46,7 +45,7 @@ export class BenefitsPage implements OnInit {
 
     startEdit(benefit: Benefit): void {
     this.selectedBenefitId = benefit.Benefits_ID;
-    this.editingBenefit = { ...benefit }; // Clone to avoid direct mutation
+    this.editingBenefit = { ...benefit }; 
   }
 
 
@@ -55,10 +54,9 @@ export class BenefitsPage implements OnInit {
 
   this.benefitsService.update(this.editingBenefit.Benefits_ID, this.editingBenefit).subscribe({
     next: (updatedBenefit) => {
-      // Update local array
       const index = this.benefits.findIndex(b => b.Benefits_ID === updatedBenefit.Benefits_ID);
       if (index > -1) {
-        this.benefits[index] = updatedBenefit;
+        this.benefits[index] = updatedBenefit; // Updating the local array 
       }
       this.cancelEdit();
     },
@@ -68,7 +66,6 @@ export class BenefitsPage implements OnInit {
     }
   });
 }
-
 
   cancelEdit(): void {
     this.editingBenefit = null;
@@ -82,12 +79,13 @@ export class BenefitsPage implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
-confirmUpdate(): void {
+  confirmUpdate(): void {
+
   if (!this.selectedBenefitId) return;
 
-  const selected = this.benefits.find(b => b.Benefits_ID === this.selectedBenefitId);
+  const selected = this.benefits.find(b => b.Benefits_ID === this.selectedBenefitId); // Finding the selected benefit by ID
+  
   if (selected) {
-    
     this.editingBenefit = { ...selected };
   }
   this.selectedBenefitId = null;

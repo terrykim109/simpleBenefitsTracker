@@ -31,9 +31,9 @@ export class AppointmentsPage implements OnInit {
   constructor(private appointmentsService: AppointmentsService) {} 
 
   ngOnInit(): void {
-    this.loadAppointments();
+    this.loadAppointments(); //loading appointments on component initialization
   }
-  
+
   loadAppointments(): void {
     this.appointmentsService.getAll().subscribe({
       next: (data) => {
@@ -89,12 +89,12 @@ toggleSelection(appointmentId: number, event: Event) {
 }
 
 deleteSelectedAppointments(): void {
-  const toDelete = [...this.selectedAppointments];
+  const toDelete = [...this.selectedAppointments]; // Creating a shallow copy
   toDelete.forEach(id => {
     this.appointmentsService.delete(id).subscribe({
-      next: () => {
-        this.appointments = this.appointments.filter(a => a.Appointment_ID !== id);
-        this.selectedAppointments = this.selectedAppointments.filter(aid => aid !== id);
+      next: () => { 
+        this.appointments = this.appointments.filter(a => a.Appointment_ID !== id); // Removing from local list
+        this.selectedAppointments = this.selectedAppointments.filter(aid => aid !== id); // Also remove from selected list
       },
       error: (err) => {
         this.error = 'Failed to delete one or more appointments.';
@@ -103,6 +103,6 @@ deleteSelectedAppointments(): void {
     });
   });
 
-  this.showCheckboxes = false;
+  this.showCheckboxes = false; // Hide checkboxes after deletion
 }
 }

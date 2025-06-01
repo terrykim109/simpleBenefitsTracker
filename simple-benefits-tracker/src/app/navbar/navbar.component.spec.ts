@@ -8,10 +8,11 @@ describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>;
 
   beforeEach(async () => {
+    // Setup the testing module
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule], 
       declarations: [NavbarComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA] 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA] // For custom elements
       }).compileComponents();
       });
 
@@ -21,6 +22,7 @@ describe('NavbarComponent', () => {
     fixture.detectChanges();
       });
 
+  // Test for component creation
   it('should create', () => {
     expect(component).toBeTruthy();
   });

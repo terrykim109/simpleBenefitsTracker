@@ -5,5 +5,6 @@ import { Router } from '@angular/router';
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {
+  // Inject Angular Router for navigation
   router = inject(Router);
 }

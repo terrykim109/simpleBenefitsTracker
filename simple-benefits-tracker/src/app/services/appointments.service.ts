@@ -33,8 +33,5 @@ export class AppointmentsService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  add(appointment: Appointment): Observable<Appointment> {
-  return this.http.post<Appointment>('/api/appointments', appointment);
-}
 
 }
