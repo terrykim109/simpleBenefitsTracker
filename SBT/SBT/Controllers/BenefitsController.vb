@@ -1,9 +1,11 @@
 ﻿' File: Controllers\BenefitsController.vb
 
+
 Imports System.Web.Http
 Imports System.Collections.Generic
 Imports MockSAMS_API.Models
 Imports SBT.MockSAMS_API.Models
+
 
 Namespace MockSAMS_API.Controllers
     Public Class BenefitsController
@@ -16,14 +18,14 @@ Namespace MockSAMS_API.Controllers
                 .Title = "ODSP",
                 .Description = "Ontario Disability Support Program",
                 .IsActive = True,
-                .ExpiryDate = New DateTime(1998, 7, 1)
+                .ExpiryDate = New DateTime(2048, 7, 1)
             },
             New Benefit With {
                 .Benefits_ID = 2,
                 .Title = "Ontario Works",
                 .Description = "Basic financial assistance for low‐income residents",
                 .IsActive = True,
-                .ExpiryDate = New DateTime(1998, 10, 1)
+                .ExpiryDate = New DateTime(2050, 10, 1)
             }
         }
 
@@ -50,18 +52,27 @@ Namespace MockSAMS_API.Controllers
 
         ' PUT 
         Public Function PutBenefit(id As Integer, updatedBenefit As Benefit) As IHttpActionResult
-            Dim existing = Benefits.FirstOrDefault(Function(b) b.Benefit_ID = id)
+            Dim existing As Benefit = Nothing
+
+            For Each b As Benefit In Benefits
+                If b.Benefits_ID = id Then
+                    existing = b
+                    Exit For
+                End If
+            Next
+
             If existing Is Nothing Then
                 Return NotFound()
             End If
 
-            existing.Name = updatedBenefit.Title
+            existing.Title = updatedBenefit.Title
             existing.Description = updatedBenefit.Description
             existing.IsActive = updatedBenefit.IsActive
-            existing.EffectiveDate = updatedBenefit.ExpiryDate
+            existing.ExpiryDate = updatedBenefit.ExpiryDate
 
             Return Ok(existing)
         End Function
+
 
         ' DELETE 
         Public Function DeleteBenefit(id As Integer) As IHttpActionResult

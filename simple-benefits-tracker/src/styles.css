@@ -54,3 +54,14 @@ main.ontario-core-layout-container {
   padding: 10px 8px;
   border-bottom: 1px solid #ddd;
 }
+
+.main-page {
+  background-image: url('../public/background.avif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.text-block {
+  margin-top: -10rem; /* adjust as needed */
+}

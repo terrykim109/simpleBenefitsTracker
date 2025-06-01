@@ -28,9 +28,9 @@ Namespace MockSAMS_API.Controllers
             New Appointment With {
                 .Appointment_ID = 3,
                 .Client_ID = 3,
-                .Appointment_DateTime = Nothing,
-                .Location = String.Empty,
-                .Client_Notes = String.Empty
+                .Appointment_DateTime = New DateTime(2025, 8, 3, 14, 30, 0),
+                .Location = "Markham Office",
+                .Client_Notes = "ODSP Consultation"
             }
         }
 

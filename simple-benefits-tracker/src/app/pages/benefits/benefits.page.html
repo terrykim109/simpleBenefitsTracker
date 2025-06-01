@@ -2,22 +2,81 @@
 <section class="ontario-core-margin-top-4">
   <h2 class="ontario-core-heading-large">Benefits</h2>
 
-  <p class="ontario-core-body ontario-core-margin-top-2">
-    Manage client benefits here. (Functionality coming soon.)
-  </p>
+  <button class="ontario-button" (click)="toggleUpdateMode()">
+    {{ showUpdateMode ? 'Cancel Update' : 'Update Benefits' }}
+  </button>
 
+  <div class="table-wrapper" style="position: relative;">
    <table class="ontario-core-table ontario-core-margin-top-2">
-    <thead> … </thead>
+        <thead>
+      <tr>
+        <th *ngIf="showUpdateMode"></th> 
+        <th scope="col">Benefits ID</th>
+        <th scope="col">Benefits Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Active</th>
+        <th scope="col">Expiry Date</th>
+      </tr>
+    </thead>
     <tbody>
-      <tr *ngFor="let benefit of benefits">
+        <tr *ngFor="let benefit of benefits" (click)="showUpdateMode ? startEdit(benefit) : null"
+            [class.selected]="selectedBenefitId === benefit.Benefits_ID"
+            style="cursor: pointer;">
+  <td *ngIf="showUpdateMode">
+    <input
+      type="checkbox"
+              [checked]="selectedBenefitId === benefit.Benefits_ID"
+              (click)="$event.stopPropagation()"
+              (change)="selectedBenefitId = benefit.Benefits_ID"
+    />
         <td>{{ benefit.Benefits_ID }}</td>
         <td>{{ benefit.Title }}</td>
         <td>{{ benefit.Description }}</td>
         <td>{{ benefit.IsActive }}</td>
-        <td>{{ benefit.ExpiryDate }}</td>
+        <td>{{ benefit.ExpiryDate | date: 'yyyy-MM-dd' }}</td>
 
       </tr>
     </tbody>
   </table>
+</div>
+
+ <div
+    *ngIf="selectedBenefitId !== null"
+    style="position: absolute; bottom: 390px; right: 650px;"
+  >
+  <button (click)="confirmUpdate()" class="ontario-button">Confirm</button>
+</div>
  
+ <div *ngIf="editingBenefit" class="edit-form" style="margin-top: 1rem; border: 1px solid #ccc; padding: 1rem; background: #f9f9f9;">
+      <h3>Edit Benefit ID: {{ editingBenefit.Benefits_ID }}</h3>
+
+      <label>
+        Title:
+        <input [(ngModel)]="editingBenefit.Title" />
+      </label>
+      <br />
+
+      <label>
+        Description:
+        <textarea [(ngModel)]="editingBenefit.Description"></textarea>
+      </label>
+      <br />
+
+      <label>
+        Active:
+        <input type="checkbox" [(ngModel)]="editingBenefit.IsActive" />
+      </label>
+      <br />
+
+      <label>
+        Expiry Date:
+        <input type="date" [(ngModel)]="editingBenefit.ExpiryDate" />
+      </label>
+      <br />
+
+      <button (click)="saveBenefit()" class="ontario-button ontario-button--primary">Save</button>
+      <button (click)="cancelEdit()" class="ontario-button ontario-button--secondary">Cancel</button>
+    </div>
+
+
 </section>
