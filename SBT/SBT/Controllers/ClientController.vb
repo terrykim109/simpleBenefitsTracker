@@ -46,7 +46,44 @@ Namespace MockSAMS_API.Controllers
                 .Next_AppointmentDate = Nothing
         }
     }
+        Public Function GetClientById(id As Integer) As IHttpActionResult
+            Dim client = Clients.FirstOrDefault(Function(c) c.Client_ID = id)
+            If client Is Nothing Then
+                Return NotFound()
+            End If
+            Return Ok(client)
+        End Function
 
+        Public Function PostClient(newClient As Client) As IHttpActionResult
+            newClient.Client_ID = Clients.Max(Function(c) c.Client_ID) + 1
+            Clients.Add(newClient)
+            Return Ok(newClient)
+        End Function
+
+        Public Function PutClient(id As Integer, updatedClient As Client) As IHttpActionResult
+            Dim client = Clients.FirstOrDefault(Function(c) c.Client_ID = id)
+            If client Is Nothing Then Return NotFound()
+
+            client.First_Name = updatedClient.First_Name
+            client.Last_Name = updatedClient.Last_Name
+            client.Current_Program = updatedClient.Current_Program
+            client.Current_Status = updatedClient.Current_Status
+            client.Program_StartDate = updatedClient.Program_StartDate
+            client.Program_ExpiryDate = updatedClient.Program_ExpiryDate
+            client.Program_LastRenewal = updatedClient.Program_LastRenewal
+            client.Email_Address = updatedClient.Email_Address
+            client.Next_AppointmentDate = updatedClient.Next_AppointmentDate
+
+            Return Ok(client)
+        End Function
+
+        Public Function DeleteClient(id As Integer) As IHttpActionResult
+            Dim client = Clients.FirstOrDefault(Function(c) c.Client_ID = id)
+            If client Is Nothing Then Return NotFound()
+
+            Clients.Remove(client)
+            Return Ok()
+        End Function
 
         Public Function GetClients() As IEnumerable(Of Client)
             Return Clients
