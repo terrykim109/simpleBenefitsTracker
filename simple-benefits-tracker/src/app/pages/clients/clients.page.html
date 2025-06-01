@@ -1,14 +1,51 @@
-<!-- src/app/pages/clients/clients.page.html -->
 
 <section class="ontario-core-margin-top-4">
   <h2 class="ontario-core-heading-large">Clients</h2>
 
-  <!-- Show error if any -->
-  <div *ngIf="error" class="ontario-core-alert ontario-core-alert--error ontario-core-margin-top-2">
+      <div *ngIf="error" class="ontario-core-alert ontario-core-alert--error ontario-core-margin-top-2">
     {{ error }}
   </div>
 
-  <!-- Table of clients -->
+  <button (click)="showForm = true" class="ontario-button ontario-core-margin-top-2">
+    Add New Client
+  </button>
+
+  <div *ngIf="showForm" class="ontario-core-margin-top-2">
+    <h3>Add Client</h3>
+    <form (ngSubmit)="addClient()" #clientForm="ngForm">
+      <label>First Name:
+        <input name="firstName" [(ngModel)]="newClient.First_Name" required />
+      </label><br />
+      <label>Last Name:
+        <input name="lastName" [(ngModel)]="newClient.Last_Name" required />
+      </label><br />
+      <label>Current Program:
+        <input name="currentProgram" [(ngModel)]="newClient.Current_Program" required />
+      </label><br />
+      <label>Current Status:
+        <input name="currentStatus" [(ngModel)]="newClient.Current_Status" required />
+      </label><br />
+      <label>Program Start Date:
+        <input name="programStartDate" type="date" [(ngModel)]="newClient.Program_StartDate" required />
+      </label><br />
+      <label>Program Expiry Date:
+        <input name="programExpiryDate" type="date" [(ngModel)]="newClient.Program_ExpiryDate" required />
+      </label><br />
+      <label>Program Last Renewal:
+        <input name="programLastRenewal" type="date" [(ngModel)]="newClient.Program_LastRenewal" required />
+      </label><br />
+      <label>Email Address:
+        <input name="emailAddress" type="email" [(ngModel)]="newClient.Email_Address" required />
+      </label><br />
+      <label>Next Appointment Date:
+        <input name="nextAppointmentDate" type="date" [(ngModel)]="newClient.Next_AppointmentDate" />
+      </label><br />
+
+      <button type="submit" class="ontario-button">Save</button>
+      <button type="button" (click)="showForm = false" class="ontario-button--secondary">Cancel</button>
+    </form>
+  </div>
+
   <table
     *ngIf="!error"
     class="ontario-core-table ontario-core-margin-top-2"
@@ -21,20 +58,28 @@
         <th scope="col">Last Name</th>
         <th scope="col">Program</th>
         <th scope="col">Status</th>
-        <th scope="col">Email</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">Expiry Date</th>
+        <th scope="col">Last Renewal</th>
+        <th scope="col">Email Address</th>
         <th scope="col">Next Appointment</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let client of clients">
-        <td>{{ client.client_ID }}</td>
-        <td>{{ client.first_Name }}</td>
-        <td>{{ client.last_Name }}</td>
-        <td>{{ client.current_Program }}</td>
-        <td>{{ client.current_Status }}</td>
-        <td>{{ client.email_Address }}</td>
-        <td>{{ client.next_AppointmentDate || 'N/A' }}</td>
-      </tr>
+        <td>{{ client.Client_ID }}</td>
+        <td>{{ client.First_Name }}</td>
+        <td>{{ client.Last_Name }}</td>
+        <td>{{ client.Current_Program }}</td>
+        <td>{{ client.Current_Status }}</td>
+        <td>{{ client.Program_StartDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ client.Program_ExpiryDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ client.Program_LastRenewal | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ client.Email_Address }}</td>
+        <td> {{client.Next_AppointmentDate && client.Next_AppointmentDate !== '0001-01-01T00:00:00'
+      ? (client.Next_AppointmentDate | date: 'yyyy-MM-dd'): 'Not scheduled'}}
+</td>
+
     </tbody>
   </table>
 

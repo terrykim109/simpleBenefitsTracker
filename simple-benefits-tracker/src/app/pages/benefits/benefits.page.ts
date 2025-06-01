@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BenefitsService } from '../../services/benefit.service';
+import { Benefit } from '../../models/benefit.model';
 
 @Component({
   selector: 'app-benefits-page',
@@ -10,10 +12,18 @@ import { CommonModule } from '@angular/common';
 })
 
 export class BenefitsPage implements OnInit {
-  
-  error = '';
-  constructor(
-    ) {}
+    benefits: Benefit[] = [];
+    error: string | null = null;
+  constructor(private benefitsService: BenefitsService) {}
   ngOnInit(): void {
-      }
+    this.benefitsService.getAll().subscribe({
+      next: (data) => {
+        this.benefits = data;
+      },
+      error: (err) => {
+        this.error = 'Failed to load benefits.';
+        console.error(err);
+      },
+    });
+  }
 }

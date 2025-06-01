@@ -1,6 +1,7 @@
 ﻿Imports System.Web.Http
 Imports System.Collections.Generic
 Imports SBT.MockSAMS_API.Models
+Imports System.Linq
 
 Namespace MockSAMS_API.Controllers
     Public Class ClientController
@@ -55,7 +56,15 @@ Namespace MockSAMS_API.Controllers
         End Function
 
         Public Function PostClient(newClient As Client) As IHttpActionResult
-            newClient.Client_ID = Clients.Max(Function(c) c.Client_ID) + 1
+            Dim maxId As Integer = 0
+
+            For Each c As Client In Clients
+                If c.Client_ID > maxId Then
+                    maxId = c.Client_ID
+                End If
+            Next
+
+            newClient.Client_ID = maxId + 1
             Clients.Add(newClient)
             Return Ok(newClient)
         End Function

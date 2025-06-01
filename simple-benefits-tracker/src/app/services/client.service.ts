@@ -1,25 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
+import { Client } from '../models/client.model';
 import { Observable } from 'rxjs';
-
-export interface Client {
-  client_ID: number;
-  first_Name: string;
-  last_Name: string;
-  current_Program: string;
-  current_Status: string;
-  program_StartDate: string;    
-  program_ExpiryDate: string;
-  program_LastRenewal: string;
-  email_Address: string;
-  next_AppointmentDate?: string | null;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = 'http://localhost:3001/api/client'; 
+  private apiUrl = `${environment.apiUrl}/client`; 
 
   constructor(private http: HttpClient) {}
 
@@ -42,4 +31,5 @@ export class ClientService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  
 }

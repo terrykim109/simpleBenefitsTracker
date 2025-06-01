@@ -1,0 +1,44 @@
+
+<header class="ontario-header-custom">
+  <nav slot="menu" role="navigation" aria-label="Main navigation">
+    <ul class="ontario-navigation__list">
+      <li class="ontario-navigation__item">
+        <a
+          class="ontario-navigation__link"
+          routerLink="/"
+          routerLinkActive="ontario-navigation__link--active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Main</a
+        >
+      </li>
+      <li class="ontario-navigation__item">
+        <a
+          class="ontario-navigation__link"
+          routerLink="/clients"
+          routerLinkActive="ontario-navigation__link--active"
+          >Clients</a
+        >
+      </li>
+      <li class="ontario-navigation__item">
+        <a
+          class="ontario-navigation__link"
+          routerLink="/benefits"
+          routerLinkActive="ontario-navigation__link--active"
+          >Benefits</a
+        >
+      </li>
+      <li class="ontario-navigation__item">
+        <a
+          class="ontario-navigation__link"
+          routerLink="/appointments"
+          routerLinkActive="ontario-navigation__link--active"
+          >Appointments</a
+        >
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<main class="ontario-core-layout-container ontario-core-margin-top-4">
+  <router-outlet></router-outlet>
+</main>
