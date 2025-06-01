@@ -2,13 +2,12 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 //gov library
-import { OntarioDesignSystemModule } from '@ongov/ontario-design-system-component-library-angular';
-
+import { ComponentLibraryModule } from '@ongov/ontario-design-system-component-library-angular/dist/component-library';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, OntarioDesignSystemModule],
+  imports: [RouterOutlet, ComponentLibraryModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

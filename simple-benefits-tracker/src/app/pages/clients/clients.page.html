@@ -1,0 +1,44 @@
+<!-- src/app/pages/clients/clients.page.html -->
+
+<section class="ontario-core-margin-top-4">
+  <h2 class="ontario-core-heading-large">Clients</h2>
+
+  <!-- Show error if any -->
+  <div *ngIf="error" class="ontario-core-alert ontario-core-alert--error ontario-core-margin-top-2">
+    {{ error }}
+  </div>
+
+  <!-- Table of clients -->
+  <table
+    *ngIf="!error"
+    class="ontario-core-table ontario-core-margin-top-2"
+    aria-label="Clients List"
+  >
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Program</th>
+        <th scope="col">Status</th>
+        <th scope="col">Email</th>
+        <th scope="col">Next Appointment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients">
+        <td>{{ client.client_ID }}</td>
+        <td>{{ client.first_Name }}</td>
+        <td>{{ client.last_Name }}</td>
+        <td>{{ client.current_Program }}</td>
+        <td>{{ client.current_Status }}</td>
+        <td>{{ client.email_Address }}</td>
+        <td>{{ client.next_AppointmentDate || 'N/A' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!error && clients.length === 0" class="ontario-core-body ontario-core-margin-top-2">
+    No clients to display.
+  </p>
+</section>

@@ -1,0 +1,22 @@
+<!-- src/app/pages/appointments/appointments.page.html -->
+
+<section class="ontario-core-margin-top-4">
+  <h2 class="ontario-core-heading-large">Appointments</h2>
+
+  <!-- Placeholder until API/Service is ready -->
+  <p class="ontario-core-body ontario-core-margin-top-2">
+    Schedule and view appointments here. (Functionality coming soon.)
+  </p>
+
+  <table class="ontario-core-table ontario-core-margin-top-2">
+    <thead> … </thead>
+    <tbody>
+      <tr *ngFor="let a of appointments">
+        <td>{{ a.id }}</td>
+        <td>{{ a.clientName }}</td>
+        <td>{{ a.date | date }}</td>
+      </tr>
+    </tbody>
+  </table>
+ 
+</section>

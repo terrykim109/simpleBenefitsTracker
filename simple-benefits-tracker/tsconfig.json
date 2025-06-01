@@ -1,5 +1,39 @@
 /* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
 /* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+// {
+//   "compileOnSave": false,
+//   "compilerOptions": {
+//     "strict": true,
+//     "noImplicitOverride": true,
+//     "noPropertyAccessFromIndexSignature": true,
+//     "noImplicitReturns": true,
+//     "noFallthroughCasesInSwitch": true,
+//     "skipLibCheck": true,
+//     "isolatedModules": true,
+//     "experimentalDecorators": true,
+//     "importHelpers": true,
+//     "target": "ES2022",
+//     "module": "es2020",
+//     "lib": ["es2022", "dom"]
+
+//   },
+//   "angularCompilerOptions": {
+//     "enableI18nLegacyMessageIdFormat": false,
+//     "strictInjectionParameters": true,
+//     "strictInputAccessModifiers": true,
+//     "typeCheckHostBindings": true,
+//     "strictTemplates": true
+//   },
+//   "files": [],
+//   "references": [
+//     {
+//       "path": "./tsconfig.app.json"
+//     },
+//     {
+//       "path": "./tsconfig.spec.json"
+//     }
+//   ]
+// }
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -9,11 +43,18 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "isolatedModules": true,
+
+    // ── IMPORTANT: Use a supported “module” for Angular 15 ──
+    "target": "es2022",
+    "module": "es2020",
+
+    // ── Ensure TypeScript can resolve node_modules packages ──
+    "moduleResolution": "node",
+    "lib": ["es2022", "dom"],
+
     "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "ES2022",
-    "module": "preserve"
+    "emitDecoratorMetadata": true,
+    "importHelpers": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -24,11 +65,7 @@
   },
   "files": [],
   "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.spec.json" }
   ]
 }
