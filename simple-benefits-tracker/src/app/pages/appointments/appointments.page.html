@@ -1,18 +1,72 @@
 <section class="ontario-core-margin-top-4">
   <h2 class="ontario-core-heading-large">Appointments</h2>
 
-  <p class="ontario-core-body ontario-core-margin-top-2">
-    Schedule and view appointments here. (Functionality coming soon.)
-  </p>
+
+
+  <button (click)="showForm = true" class="ontario-button ontario-core-margin-top-2">
+    Add New Appointment
+  </button>
+  
+<button (click)="toggleCheckboxes()" class="ontario-button--secondary">
+  {{ showCheckboxes ? 'Cancel' : 'Remove' }}
+</button>
+
+<button *ngIf="showCheckboxes && selectedAppointments.length > 0"
+        (click)="deleteSelectedAppointments()"
+        class="ontario-button ontario-core-margin-left-1">
+  Delete Selected
+</button>
+
+  <div *ngIf="showForm" class="ontario-core-margin-top-2">
+  <h3>Add Appointment</h3>
+  
+  <form (ngSubmit)="addAppointment()" #appointmentForm="ngForm">
+    <label>Client ID:
+      <input name="clientId" type="number" [(ngModel)]="newAppointment.Client_ID" required />
+    </label><br />
+    
+    <label>Appointment Date & Time:
+      <input name="appointmentDateTime" type="datetime-local" [(ngModel)]="newAppointment.Appointment_DateTime" required />
+    </label><br />
+    
+    <label>Location:
+      <input name="location" [(ngModel)]="newAppointment.Location" required />
+    </label><br />
+    
+    <label>Client Notes:
+      <textarea name="clientNotes" [(ngModel)]="newAppointment.Client_Notes"></textarea>
+    </label><br />
+    
+    <button type="submit" class="ontario-button">Save</button>
+    <button type="button" (click)="showForm = false" class="ontario-button--secondary">Cancel</button>
+  </form>
+</div>
 
   <table class="ontario-core-table ontario-core-margin-top-2">
-    <thead> … </thead>
+       <thead>
+      <tr>
+        <th *ngIf="showCheckboxes"></th> 
+        <th scope="col">Appointment ID</th>
+        <th scope="col">Client ID</th>
+        <th scope="col">Appointment Date/Time</th>
+        <th scope="col">Location</th>
+        <th scope="col">Client Notes</th>
+        
+      </tr>
+    </thead>
     <tbody>
       <tr *ngFor="let appointment of appointments">
+        <td *ngIf="showCheckboxes">
+         <input
+        type="checkbox"
+        [checked]="selectedAppointments.includes(appointment.Appointment_ID)"
+        (change)="toggleSelection(appointment.Appointment_ID, $event)"
+      />
+      </td>
+       
         <td>{{ appointment.Appointment_ID }}</td>
         <td>{{ appointment.Client_ID }}</td>
-        <td>{{ appointment.Appointment_DateTime}}</td>
-        <td>{{ appointment.Client_ID }}</td>
+        <td>{{ appointment.Appointment_DateTime.replace('T', ' ') }}</td>
         <td>{{ appointment.Location }}</td>
         <td>{{ appointment.Client_Notes }}</td>
       </tr>

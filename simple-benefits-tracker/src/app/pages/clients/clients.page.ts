@@ -27,8 +27,11 @@ export class ClientsPage implements OnInit {
     Next_AppointmentDate: null,
   };
 
-showForm = false;
+  showForm = false;
   error = '';
+  showClientCheckboxes = false;
+  selectedClients: number[] = [];
+
   constructor(private clientService: ClientService) {}
 
  ngOnInit(): void {
@@ -60,6 +63,22 @@ showForm = false;
     });
   }
 
+  toggleClientCheckboxes(): void {
+  this.showClientCheckboxes = !this.showClientCheckboxes;
+  if (!this.showClientCheckboxes) {
+    this.selectedClients = [];
+  }
+}
+
+toggleClientSelection(id: number, event: any): void {
+  
+  if (event.target.checked) {
+    this.selectedClients.push(id);
+  } else {
+    this.selectedClients = this.selectedClients.filter(cid => cid !== id);
+  }
+}
+
   resetNewClient() {
     this.newClient = {
       First_Name: '',
@@ -73,5 +92,24 @@ showForm = false;
       Next_AppointmentDate: null,
     };
   }
+
+deleteSelectedClients(): void {
+  
+  const toDelete = [...this.selectedClients];
+  toDelete.forEach(id => {
+    this.clientService.delete(id).subscribe({
+      next: () => {
+        this.clients = this.clients.filter(c => c.Client_ID !== id);
+        this.selectedClients = this.selectedClients.filter(cid => cid !== id);
+      },
+      error: (err) => {
+        this.error = 'Failed to delete one or more clients.';
+        console.error(err);
+      }
+    });
+  });
+
+  this.showClientCheckboxes = false;
 }
 
+}

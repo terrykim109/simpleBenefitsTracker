@@ -1,9 +1,4 @@
-﻿' File: Controllers\BenefitsController.vb
-
-
-Imports System.Web.Http
-Imports System.Collections.Generic
-Imports MockSAMS_API.Models
+﻿Imports System.Web.Http
 Imports SBT.MockSAMS_API.Models
 
 
@@ -34,23 +29,39 @@ Namespace MockSAMS_API.Controllers
             Return Benefits
         End Function
 
-        ' GET 
+        ' GET Benefit
         Public Function GetBenefitById(id As Integer) As IHttpActionResult
-            Dim benefit = Benefits.FirstOrDefault(Function(b) b.Benefit_ID = id)
+            Dim benefit As Benefit = Nothing
+
+            For Each b As Benefit In Benefits
+                If b.Benefits_ID = id Then
+                    benefit = b
+                    Exit For
+                End If
+            Next
+
             If benefit Is Nothing Then
                 Return NotFound()
             End If
             Return Ok(benefit)
         End Function
 
-        ' POST 
+        ' Add new Benefits 
         Public Function PostBenefit(newBenefit As Benefit) As IHttpActionResult
-            newBenefit.Benefits_ID = Benefits.Max(Function(b) b.Benefit_ID) + 1
+            Dim maxId As Integer = 0
+
+            For Each b As Benefit In Benefits
+                If b.Benefits_ID > maxId Then
+                    maxId = b.Benefits_ID
+                End If
+            Next
+
+            newBenefit.Benefits_ID = maxId + 1
             Benefits.Add(newBenefit)
             Return Ok(newBenefit)
         End Function
 
-        ' PUT 
+        ' Update New Benefit 
         Public Function PutBenefit(id As Integer, updatedBenefit As Benefit) As IHttpActionResult
             Dim existing As Benefit = Nothing
 
@@ -76,12 +87,20 @@ Namespace MockSAMS_API.Controllers
 
         ' DELETE 
         Public Function DeleteBenefit(id As Integer) As IHttpActionResult
-            Dim benefit = Benefits.FirstOrDefault(Function(b) b.Benefit_ID = id)
-            If benefit Is Nothing Then
+            Dim benefitToRemove As Benefit = Nothing
+
+            For Each b As Benefit In Benefits
+                If b.Benefits_ID = id Then
+                    benefitToRemove = b
+                    Exit For
+                End If
+            Next
+
+            If benefitToRemove Is Nothing Then
                 Return NotFound()
             End If
 
-            Benefits.Remove(benefit)
+            Benefits.Remove(benefitToRemove)
             Return Ok()
         End Function
     End Class

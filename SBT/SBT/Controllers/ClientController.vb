@@ -1,7 +1,5 @@
 ﻿Imports System.Web.Http
-Imports System.Collections.Generic
 Imports SBT.MockSAMS_API.Models
-Imports System.Linq
 
 Namespace MockSAMS_API.Controllers
     Public Class ClientController
@@ -47,14 +45,25 @@ Namespace MockSAMS_API.Controllers
                 .Next_AppointmentDate = Nothing
         }
     }
+        'Getting Cllient
         Public Function GetClientById(id As Integer) As IHttpActionResult
-            Dim client = Clients.FirstOrDefault(Function(c) c.Client_ID = id)
-            If client Is Nothing Then
+            Dim foundClient As Client = Nothing
+
+            For Each c As Client In Clients
+                If c.Client_ID = id Then
+                    foundClient = c
+                    Exit For
+                End If
+            Next
+
+            If foundClient Is Nothing Then
                 Return NotFound()
             End If
-            Return Ok(client)
+
+            Return Ok(foundClient)
         End Function
 
+        'Putting New Client
         Public Function PostClient(newClient As Client) As IHttpActionResult
             Dim maxId As Integer = 0
 
@@ -69,9 +78,20 @@ Namespace MockSAMS_API.Controllers
             Return Ok(newClient)
         End Function
 
+        'Updating Client
         Public Function PutClient(id As Integer, updatedClient As Client) As IHttpActionResult
-            Dim client = Clients.FirstOrDefault(Function(c) c.Client_ID = id)
-            If client Is Nothing Then Return NotFound()
+            Dim client As Client = Nothing
+
+            For Each c As Client In Clients
+                If c.Client_ID = id Then
+                    client = c
+                    Exit For
+                End If
+            Next
+
+            If client Is Nothing Then
+                Return NotFound()
+            End If
 
             client.First_Name = updatedClient.First_Name
             client.Last_Name = updatedClient.Last_Name
@@ -86,11 +106,22 @@ Namespace MockSAMS_API.Controllers
             Return Ok(client)
         End Function
 
+        'Removing Client
         Public Function DeleteClient(id As Integer) As IHttpActionResult
-            Dim client = Clients.FirstOrDefault(Function(c) c.Client_ID = id)
-            If client Is Nothing Then Return NotFound()
+            Dim client As Client = Nothing
+            For Each c As Client In Clients
+                If c.Client_ID = id Then
+                    client = c
+                    Exit For
+                End If
+            Next
+
+            If client Is Nothing Then
+                Return NotFound()
+            End If
 
             Clients.Remove(client)
+
             Return Ok()
         End Function
 

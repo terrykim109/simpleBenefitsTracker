@@ -10,6 +10,16 @@
     Add New Client
   </button>
 
+    <button (click)="toggleClientCheckboxes()" class="ontario-button--secondary">
+    {{ showClientCheckboxes ? 'Cancel' : 'Remove' }}
+  </button>
+
+    <button *ngIf="showClientCheckboxes && selectedClients.length > 0"
+          (click)="deleteSelectedClients()"
+          class="ontario-button ontario-core-margin-left-1">
+    Delete Selected
+  </button>
+
   <div *ngIf="showForm" class="ontario-core-margin-top-2">
     <h3>Add Client</h3>
     <form (ngSubmit)="addClient()" #clientForm="ngForm">
@@ -67,6 +77,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let client of clients">
+         <td *ngIf="showClientCheckboxes">
+          <input
+            type="checkbox"
+            [checked]="selectedClients.includes(client.Client_ID)"
+            (change)="toggleClientSelection(client.Client_ID, $event)"
+          />
+        </td>
         <td>{{ client.Client_ID }}</td>
         <td>{{ client.First_Name }}</td>
         <td>{{ client.Last_Name }}</td>
